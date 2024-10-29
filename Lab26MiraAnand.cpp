@@ -140,7 +140,26 @@ int main()
         races[3][2][i] = duration_cast<milliseconds>(endSetDelete - startSetDelete).count(); // calculate the time it took and store it in the 3-D "races" array
     }
 
-    // 
+    // we will use our 2-D array ("totalDurations") to sum up all the race run times/durations we have stored in our 3-D array ("races")
+    // this requires the creation of 3 for loops to achieve an accurate calculation
+    // 1st for loop: runs according to the # of races (RACE_NUM)
+    // 2nd for loop: runs according to the # of data structure contestants (CONTESTANT_NUM)
+    // 3rd for loop: runs according to the # of times each race is performed (SIMULATION_NUM)
+    for (int r = 0; r < RACE_NUM; r++)
+    {
+        for (int c = 0; c < CONTESTANT_NUM; c++)
+        {
+            for (int s = 0; s < SIMULATION_NUM; s++)
+            {
+                // total run time/duration for each race is calculated and stored in our 2-D array
+                totalDurations[r][c] = totalDurations[r][c] + races[r][c][s];
+            }
+        }
+    }
+
+    // output the average run time/duration for each race
+    
+    cout << setw(WIDTH) << "Operation" << setw(WIDTH) << "Vector" << setw(WIDTH) << "List" << setw(WIDTH) << "Set" << endl; // table header
 
     return 0;
 }
