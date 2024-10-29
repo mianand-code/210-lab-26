@@ -42,7 +42,9 @@ void setDelete(set<string>&);
 int main() 
 {
     string fileName = "codes.txt"; // to hold the name of the input file to read data elements from
-    int durationSetSort = -1; // since std::set automatically sorts on its own, we are using -1 as a placeholder for the sort duration when outputting results for the sorting race
+    // since std::set automatically sorts on its own, we are using 0 as a placeholder for the sort duration when outputting results for the sorting race
+    // I am changing the placeholder from -1 to 0 in order to achieve compatability with the for loop that runs based on # of simulations to be performed
+    int durationSetSort = 0; 
     string value = "TESTCODE"; // this is the value we will be inserting into each data structure for our inserting race
 
     // creation of a 3-D array to store results of each race for each data structure - for each simulation occurence
@@ -99,49 +101,46 @@ int main()
         auto startListSort = high_resolution_clock::now(); // start stopwatch
         listSort(listContestant); // listSort() function call, will sort the data elements within the list (according to ASCII)
         auto endListSort = high_resolution_clock::now(); // stop stopwatch after function call
-        auto durationListSort = duration_cast<milliseconds>(endListSort - startListSort); // calculate the time it took and store it in the 3-D "races" array
+        races[1][1][i] = duration_cast<milliseconds>(endListSort - startListSort).count(); // calculate the time it took and store it in the 3-D "races" array
+        // contestant #3: set
+        races[1][2][i] = durationSetSort; // storing the placeholder for the sorting race duration in the 3-D "races" array
 
         // code block #3, race #3: time how long it takes to insert the value "TESTCODE" into the middle of the vector & list, & into the correct sorted position within the set
         // contestant #1: vector
         auto startVectorInsert = high_resolution_clock::now(); // start stopwatch
         vectorInsert(vectorContestant, value); // vectorInsert() function call, will insert the specified value into the middle of the vector
         auto endVectorInsert = high_resolution_clock::now(); // stop stopwatch after function call
-        auto durationVectorInsert = duration_cast<milliseconds>(endVectorInsert - startVectorInsert); // calculate the time it took and store it in the 3-D "races" array
+        races[2][0][i] = duration_cast<milliseconds>(endVectorInsert - startVectorInsert).count(); // calculate the time it took and store it in the 3-D "races" array
         // contestant #2: list
         auto startListInsert = high_resolution_clock::now(); // start stopwatch
         listInsert(listContestant, value); // listInsert() function call, will insert the specified value into the middle of the list
         auto endListInsert = high_resolution_clock::now(); // stop stopwatch after function call
-        auto durationListInsert = duration_cast<milliseconds>(endListInsert - startListInsert); // calculate the time it took and store it in the 3-D "races" array
+        races[2][1][i] = duration_cast<milliseconds>(endListInsert - startListInsert).count(); // calculate the time it took and store it in the 3-D "races" array
         // contestant #3: set
         auto startSetInsert = high_resolution_clock::now(); // start stopwatch
         setInsert(setContestant, value); // setInsert() function call, will insert the specified value into the correct sorted position within the set
         auto endSetInsert = high_resolution_clock::now(); // stop stopwatch after function call
-        auto durationSetInsert = duration_cast<milliseconds>(endSetInsert - startSetInsert); // calculate the time it took and store it in the 3-D "races" array
+        races[2][2][i] = duration_cast<milliseconds>(endSetInsert - startSetInsert).count(); // calculate the time it took and store it in the 3-D "races" array
 
         // code block #4, race #4: time how long it takes to delete the middle element of each data structure
         // contestant #1: vector
         auto startVectorDelete = high_resolution_clock::now(); // start stopwatch
         vectorDelete(vectorContestant); // vectorDelete() function call, will delete the middle element of the vector
         auto endVectorDelete = high_resolution_clock::now(); // stop stopwatch after function call
-        auto durationVectorDelete = duration_cast<milliseconds>(endVectorDelete - startVectorDelete); // calculate the time it took and store it in the 3-D "races" array
+        races[3][0][i] = duration_cast<milliseconds>(endVectorDelete - startVectorDelete).count(); // calculate the time it took and store it in the 3-D "races" array
         // contestant #2: list
         auto startListDelete = high_resolution_clock::now(); // start stopwatch
         listDelete(listContestant); // listDelete() function call, will delete the middle element of the list
         auto endListDelete = high_resolution_clock::now(); // stop stopwatch after function call
-        auto durationListDelete = duration_cast<milliseconds>(endListDelete - startListDelete); // calculate the time it took and store it in the 3-D "races" array
+        races[3][1][i] = duration_cast<milliseconds>(endListDelete - startListDelete).count(); // calculate the time it took and store it in the 3-D "races" array
         // contestant #3: set
         auto startSetDelete = high_resolution_clock::now(); // start stopwatch
         setDelete(setContestant); // setDelete() function call, will delete the middle element of the set
         auto endSetDelete = high_resolution_clock::now(); // stop stopwatch after function call
-        auto durationSetDelete = duration_cast<milliseconds>(endSetDelete - startSetDelete); // calculate the time it took and store it in the 3-D "races" array
+        races[3][2][i] = duration_cast<milliseconds>(endSetDelete - startSetDelete).count(); // calculate the time it took and store it in the 3-D "races" array
     }
 
-    // output the results of each race
-    cout << setw(WIDTH) << "Operation" << setw(WIDTH) << "Vector" << setw(WIDTH) << "List" << setw(WIDTH) << "Set" << endl;
-    cout << setw(WIDTH) << "Read" << setw(WIDTH) << durationVectorRead.count() << setw(WIDTH) << durationListRead.count() << setw(WIDTH) << durationSetRead.count() << endl;
-    cout << setw(WIDTH) << "Sort" << setw(WIDTH) << durationVectorSort.count() << setw(WIDTH) << durationListSort.count() << setw(WIDTH) << durationSetSort << endl; // -1 placeholder for set
-    cout << setw(WIDTH) << "Insert" << setw(WIDTH) << durationVectorInsert.count() << setw(WIDTH) << durationListInsert.count() << setw(WIDTH) << durationSetInsert.count() << endl;
-    cout << setw(WIDTH) << "Delete" << setw(WIDTH) << durationVectorDelete.count() << setw(WIDTH) << durationListDelete.count()<< setw(WIDTH) << durationSetDelete.count() << endl; 
+    // 
 
     return 0;
 }
