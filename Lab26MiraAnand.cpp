@@ -158,8 +158,17 @@ int main()
     }
 
     // output the average run time/duration for each race
-    
+    cout << "Number of simulations: " << SIMULATION_NUM << endl; // # of simulations performed
     cout << setw(WIDTH) << "Operation" << setw(WIDTH) << "Vector" << setw(WIDTH) << "List" << setw(WIDTH) << "Set" << endl; // table header
+    for (int i = 0; i < RACE_NUM; i++) // creation of a for loop that will run for each race
+    {
+        cout << setw(WIDTH) << raceNames[i]; // output the name of each race being performed, using our "raceNames" array to accomplish this
+        // for each data structure, we are taking the total run time/duration of each race & dividing it by the # of simulations performed
+        cout << setw(WIDTH) << totalDurations[i][0] / SIMULATION_NUM;
+        cout << setw(WIDTH) << totalDurations[i][1] / SIMULATION_NUM;
+        cout << setw(WIDTH) << totalDurations[i][2] / SIMULATION_NUM;
+        cout << endl;
+    }
 
     return 0;
 }
