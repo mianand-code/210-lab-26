@@ -53,83 +53,89 @@ int main()
     // initializing to 0, to start
     int totalDurations[RACE_NUM][CONTESTANT_NUM] = {0};
 
-    // creation of an array that will hold the names of
+    // creation of an array that will hold the names of each of the races
+    string raceNames[RACE_NUM] = {"Read", "Sort", "Insert", "Delete"};
 
-    // creation of the 3 data structure contestants for the races
-    vector<string> vectorContestant;
-    list<string> listContestant;
-    set<string> setContestant;
+    // creation of a for loop that will run/perform each race according to the amount of simulations specified by "SIMULATION_NUM"
+    // the result of each race (according to data structure and simulation #) will be stored in the "race" 3-D array
+    // .count() will be used to ensure that the result being stored is a # that references elapsed milliseconds
+    for (int i = 0; i < SIMULATION_NUM; i++)
+    {
+        // creation of the 3 data structure contestants for the races
+        vector<string> vectorContestant;
+        list<string> listContestant;
+        set<string> setContestant;
 
-    // code block #1, race #1: time how long it takes to read data elements into each data structure
-    // contestant #1: vector
-    auto startVectorRead = high_resolution_clock::now(); // start stopwatch
-    vectorRead(fileName, vectorContestant); // vectorRead() function call, will read data elements from the input file into the vector
-    auto endVectorRead = high_resolution_clock::now(); // stop stopwatch after function call
-    auto durationVectorRead = duration_cast<milliseconds>(endVectorRead - startVectorRead); // calculate the time it took
-    // contestant #2: list
-    auto startListRead = high_resolution_clock::now(); // start stopwatch
-    listRead(fileName, listContestant); // listRead() function call, will read data elements from the input file into the list
-    auto endListRead = high_resolution_clock::now(); // stop stopwatch after function call
-    auto durationListRead = duration_cast<milliseconds>(endListRead - startListRead); // calculate the time it took
-    // contestant #3: set
-    auto startSetRead = high_resolution_clock::now(); // start stopwatch
-    setRead(fileName, setContestant); // setRead() function call, will read data elements from the input file into the set
-    auto endSetRead = high_resolution_clock::now(); // stop stopwatch after function call
-    auto durationSetRead = duration_cast<milliseconds>(endSetRead - startSetRead); // calculate the time it took
+        // RACE_NUM indexes: read = [0], sort = [1], insert = [2], delete = [3]
+        // CONTESTANT_NUM indexes: vector = [0], list = [1], set = [2]
 
-    // code block #2, race #2: time how long it takes to sort each data structure
-    // std::set will not be participating in this race because this data structure automatically sorts elements on its own
-    // std::set will have a placeholder of -1 for the sort duration when we output the results for the sorting race
-    // contestant #1: vector
-    auto startVectorSort = high_resolution_clock::now(); // start stopwatch
-    vectorSort(vectorContestant); // vectorSort() function call, will sort the data elements within the vector (according to ASCII)
-    auto endVectorSort = high_resolution_clock::now(); // stop stopwatch after function call
-    auto durationVectorSort = duration_cast<milliseconds>(endVectorSort - startVectorSort); // calculate the time it took
-    // contestant #2: list
-    auto startListSort = high_resolution_clock::now(); // start stopwatch
-    listSort(listContestant); // listSort() function call, will sort the data elements within the list (according to ASCII)
-    auto endListSort = high_resolution_clock::now(); // stop stopwatch after function call
-    auto durationListSort = duration_cast<milliseconds>(endListSort - startListSort); // calculate the time it took
+        // code block #1, race #1: time how long it takes to read data elements into each data structure
+        // contestant #1: vector
+        auto startVectorRead = high_resolution_clock::now(); // start stopwatch
+        vectorRead(fileName, vectorContestant); // vectorRead() function call, will read data elements from the input file into the vector
+        auto endVectorRead = high_resolution_clock::now(); // stop stopwatch after function call
+        races[0][0][i] = duration_cast<milliseconds>(endVectorRead - startVectorRead); // calculate the time it took
+        // contestant #2: list
+        auto startListRead = high_resolution_clock::now(); // start stopwatch
+        listRead(fileName, listContestant); // listRead() function call, will read data elements from the input file into the list
+        auto endListRead = high_resolution_clock::now(); // stop stopwatch after function call
+        auto durationListRead = duration_cast<milliseconds>(endListRead - startListRead); // calculate the time it took
+        // contestant #3: set
+        auto startSetRead = high_resolution_clock::now(); // start stopwatch
+        setRead(fileName, setContestant); // setRead() function call, will read data elements from the input file into the set
+        auto endSetRead = high_resolution_clock::now(); // stop stopwatch after function call
+        auto durationSetRead = duration_cast<milliseconds>(endSetRead - startSetRead); // calculate the time it took
 
-    // code block #3, race #3: time how long it takes to insert the value "TESTCODE" into the middle of the vector & list, & into the correct sorted position within the set
-    // contestant #1: vector
-    auto startVectorInsert = high_resolution_clock::now(); // start stopwatch
-    vectorInsert(vectorContestant, value); // vectorInsert() function call, will insert the specified value into the middle of the vector
-    auto endVectorInsert = high_resolution_clock::now(); // stop stopwatch after function call
-    auto durationVectorInsert = duration_cast<microseconds>(endVectorInsert - startVectorInsert); // calculate the time it took
-    // contestant #2: list
-    auto startListInsert = high_resolution_clock::now(); // start stopwatch
-    listInsert(listContestant, value); // listInsert() function call, will insert the specified value into the middle of the list
-    auto endListInsert = high_resolution_clock::now(); // stop stopwatch after function call
-    auto durationListInsert = duration_cast<microseconds>(endListInsert - startListInsert); // calculate the time it took
-    // contestant #3: set
-    auto startSetInsert = high_resolution_clock::now(); // start stopwatch
-    setInsert(setContestant, value); // setInsert() function call, will insert the specified value into the correct sorted position within the set
-    auto endSetInsert = high_resolution_clock::now(); // stop stopwatch after function call
-    auto durationSetInsert = duration_cast<microseconds>(endSetInsert - startSetInsert); // calculate the time it took
+        // code block #2, race #2: time how long it takes to sort each data structure
+        // std::set will not be participating in this race because this data structure automatically sorts elements on its own
+        // std::set will have a placeholder of -1 for the sort duration when we output the results for the sorting race
+        // contestant #1: vector
+        auto startVectorSort = high_resolution_clock::now(); // start stopwatch
+        vectorSort(vectorContestant); // vectorSort() function call, will sort the data elements within the vector (according to ASCII)
+        auto endVectorSort = high_resolution_clock::now(); // stop stopwatch after function call
+        auto durationVectorSort = duration_cast<milliseconds>(endVectorSort - startVectorSort); // calculate the time it took
+        // contestant #2: list
+        auto startListSort = high_resolution_clock::now(); // start stopwatch
+        listSort(listContestant); // listSort() function call, will sort the data elements within the list (according to ASCII)
+        auto endListSort = high_resolution_clock::now(); // stop stopwatch after function call
+        auto durationListSort = duration_cast<milliseconds>(endListSort - startListSort); // calculate the time it took
 
-    // code block #4, race #4: time how long it takes to delete the middle element of each data structure
-    // contestant #1: vector
-    auto startVectorDelete = high_resolution_clock::now(); // start stopwatch
-    vectorDelete(vectorContestant); // vectorDelete() function call, will delete the middle element of the vector
-    auto endVectorDelete = high_resolution_clock::now(); // stop stopwatch after function call
-    auto durationVectorDelete = duration_cast<microseconds>(endVectorDelete - startVectorDelete); // calculate the time it took
-    // contestant #2: list
-    auto startListDelete = high_resolution_clock::now(); // start stopwatch
-    listDelete(listContestant); // listDelete() function call, will delete the middle element of the list
-    auto endListDelete = high_resolution_clock::now(); // stop stopwatch after function call
-    auto durationListDelete = duration_cast<microseconds>(endListDelete - startListDelete); // calculate the time it took
-    // contestant #3: set
-    auto startSetDelete = high_resolution_clock::now(); // start stopwatch
-    setDelete(setContestant); // setDelete() function call, will delete the middle element of the set
-    auto endSetDelete = high_resolution_clock::now(); // stop stopwatch after function call
-    auto durationSetDelete = duration_cast<microseconds>(endSetDelete - startSetDelete); // calculate the time it took
+        // code block #3, race #3: time how long it takes to insert the value "TESTCODE" into the middle of the vector & list, & into the correct sorted position within the set
+        // contestant #1: vector
+        auto startVectorInsert = high_resolution_clock::now(); // start stopwatch
+        vectorInsert(vectorContestant, value); // vectorInsert() function call, will insert the specified value into the middle of the vector
+        auto endVectorInsert = high_resolution_clock::now(); // stop stopwatch after function call
+        auto durationVectorInsert = duration_cast<milliseconds>(endVectorInsert - startVectorInsert); // calculate the time it took
+        // contestant #2: list
+        auto startListInsert = high_resolution_clock::now(); // start stopwatch
+        listInsert(listContestant, value); // listInsert() function call, will insert the specified value into the middle of the list
+        auto endListInsert = high_resolution_clock::now(); // stop stopwatch after function call
+        auto durationListInsert = duration_cast<milliseconds>(endListInsert - startListInsert); // calculate the time it took
+        // contestant #3: set
+        auto startSetInsert = high_resolution_clock::now(); // start stopwatch
+        setInsert(setContestant, value); // setInsert() function call, will insert the specified value into the correct sorted position within the set
+        auto endSetInsert = high_resolution_clock::now(); // stop stopwatch after function call
+        auto durationSetInsert = duration_cast<milliseconds>(endSetInsert - startSetInsert); // calculate the time it took
+
+        // code block #4, race #4: time how long it takes to delete the middle element of each data structure
+        // contestant #1: vector
+        auto startVectorDelete = high_resolution_clock::now(); // start stopwatch
+        vectorDelete(vectorContestant); // vectorDelete() function call, will delete the middle element of the vector
+        auto endVectorDelete = high_resolution_clock::now(); // stop stopwatch after function call
+        auto durationVectorDelete = duration_cast<milliseconds>(endVectorDelete - startVectorDelete); // calculate the time it took
+        // contestant #2: list
+        auto startListDelete = high_resolution_clock::now(); // start stopwatch
+        listDelete(listContestant); // listDelete() function call, will delete the middle element of the list
+        auto endListDelete = high_resolution_clock::now(); // stop stopwatch after function call
+        auto durationListDelete = duration_cast<milliseconds>(endListDelete - startListDelete); // calculate the time it took
+        // contestant #3: set
+        auto startSetDelete = high_resolution_clock::now(); // start stopwatch
+        setDelete(setContestant); // setDelete() function call, will delete the middle element of the set
+        auto endSetDelete = high_resolution_clock::now(); // stop stopwatch after function call
+        auto durationSetDelete = duration_cast<milliseconds>(endSetDelete - startSetDelete); // calculate the time it took
+    }
 
     // output the results of each race
-    // using .count() to reference elapsed milliseconds for read and sort races
-    // using .count() to reference elapsed MICROSECONDS for insert and delete races
-    // I was not getting results (only 0s) when using milliseconds to measure the insert and delete races, so I changed the time measurement to microseconds and this gave me non-zero results
-    // It could be that the insert and delete operations were happening too fast to be measured only in milliseconds
     cout << setw(WIDTH) << "Operation" << setw(WIDTH) << "Vector" << setw(WIDTH) << "List" << setw(WIDTH) << "Set" << endl;
     cout << setw(WIDTH) << "Read" << setw(WIDTH) << durationVectorRead.count() << setw(WIDTH) << durationListRead.count() << setw(WIDTH) << durationSetRead.count() << endl;
     cout << setw(WIDTH) << "Sort" << setw(WIDTH) << durationVectorSort.count() << setw(WIDTH) << durationListSort.count() << setw(WIDTH) << durationSetSort << endl; // -1 placeholder for set
