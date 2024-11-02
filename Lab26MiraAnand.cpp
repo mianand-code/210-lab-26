@@ -4,7 +4,7 @@
 
 // In this program, each of the 3 data structures will have its own separate function for each individual race task, for purposes of clarity
 
-#include <algorithm> // to use std::vector member functions
+#include <algorithm> // to use member functions
 #include <chrono> // to use time features
 #include <fstream> // needed for file operations
 #include <iomanip> // to use setw()
@@ -43,11 +43,11 @@ int main()
 {
     string fileName = "codes.txt"; // to hold the name of the input file to read data elements from
     // since std::set automatically sorts on its own, we are using 0 as a placeholder for the sort duration when outputting results for the sorting race
-    // I am changing the placeholder from -1 to 0 in order to achieve compatability with the for loop that runs based on # of simulations to be performed
+    // I am changing the placeholder from -1 to 0 since we are performing 15 simulations
     int durationSetSort = 0; 
     string value = "TESTCODE"; // this is the value we will be inserting into each data structure for our inserting race
 
-    // creation of a 3-D array to store results of each race for each data structure - for each simulation occurence
+    // creation of a 3-D array to store results of each race for each data structure - for each simulation occurrence
     // initializing to 0, to start
     int races[RACE_NUM][CONTESTANT_NUM][SIMULATION_NUM] = {0};
 
@@ -59,14 +59,14 @@ int main()
     string raceNames[RACE_NUM] = {"Read", "Sort", "Insert", "Delete"};
 
     // creation of a for loop that will run/perform each race according to the # of simulations specified by "SIMULATION_NUM"
-    // the result of each race (according to data structure and simulation #) will be stored in the "races" 3-D array
-    // .count() will be used to ensure that the result being stored is a # that references elapsed microseconds
-    // I was not getting results (only 0s) when using milliseconds to measure the insert and delete races, so I changed the time measurement to microseconds and this gave me non-zero results
-    // It could be that the insert and delete operations were happening too fast to be measured only in milliseconds
-    // I changed the time measurement for all races to microseconds, just to stay consistent in measuring all races
+    // - the result of each race (according to data structure and simulation #) will be stored in the "races" 3-D array
+    // - .count() will be used to ensure that the result being stored is a # that references elapsed microseconds
+    // - I was not getting results (only 0s) when using milliseconds to measure the insert and delete races, so I changed the time measurement to microseconds and this gave me non-zero results
+    // - it could be that the insert and delete operations were happening too fast to be measured only in milliseconds
+    // - I changed the time measurement for all races to microseconds, just to stay consistent in measuring all races
     for (int i = 0; i < SIMULATION_NUM; i++)
     {
-        // creation of the 3 data structure contestants for the races
+        // creation of the 3 data structure contestants that will be participating in the races
         vector<string> vectorContestant;
         list<string> listContestant;
         set<string> setContestant;
@@ -94,7 +94,7 @@ int main()
 
         // code block #2, race #2: time how long it takes to sort each data structure
         // std::set will not be participating in this race because this data structure automatically sorts elements on its own
-        // std::set will have a placeholder of -1 for the sort duration when we output the results for the sorting race
+        // std::set will have a placeholder of 0 for the sort duration when we output the results for the sorting race
         // contestant #1: vector
         auto startVectorSort = high_resolution_clock::now(); // start stopwatch
         vectorSort(vectorContestant); // vectorSort() function call, will sort the data elements within the vector (according to ASCII)
@@ -163,10 +163,10 @@ int main()
     // output the average run time/duration for each race
     cout << "Number of simulations: " << SIMULATION_NUM << endl; // # of simulations performed
     cout << setw(WIDTH) << "Operation" << setw(WIDTH) << "Vector" << setw(WIDTH) << "List" << setw(WIDTH) << "Set" << endl; // table header
-    for (int i = 0; i < RACE_NUM; i++) // creation of a for loop that will run for each race
+    for (int i = 0; i < RACE_NUM; i++) // creation of a for loop that runs according to the # of races performed
     {
         cout << setw(WIDTH) << raceNames[i]; // output the name of each race being performed, using our "raceNames" array to accomplish this
-        // for each data structure, we are taking the total run time/duration of each race & dividing it by the # of simulations performed
+        // for each data structure, we are taking the total run time/duration of each race & dividing it by the # of simulations performed to output the avg
         cout << setw(WIDTH) << totalDurations[i][0] / SIMULATION_NUM;
         cout << setw(WIDTH) << totalDurations[i][1] / SIMULATION_NUM;
         cout << setw(WIDTH) << totalDurations[i][2] / SIMULATION_NUM;
